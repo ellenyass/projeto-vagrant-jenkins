@@ -12,7 +12,9 @@ Vagrant.configure("2") do |config|
    host.vm.network "private_network",
       ip: "192.168.56.10"
 
-    host.vm.synced_folder "./app", "/home/projeto-vagrant-jenkins/app"
+   host.vm.synced_folder "./app", "/home/projeto-vagrant-jenkins/app"
+   host.vm.provision "shell",
+      path: "vagrant/scripts/setup-jenkins.sh"
 
 
   end
@@ -22,13 +24,16 @@ Vagrant.configure("2") do |config|
 
     prod.vm.provider "virtualbox" do |vb|
       vb.memory = 1024
-      vb.cpus = 2
+      vb.cpus = 1
     end
 
    prod.vm.network "private_network",
       ip: "192.168.56.20"
 
    prod.vm.synced_folder "./app", "/home/projeto-vagrant-jenkins/app"
+
+  prod.vm.provision "shell",
+      path: "vagrant/scripts/setup-node.sh"
 
     
   end
